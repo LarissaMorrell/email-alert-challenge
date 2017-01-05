@@ -12,6 +12,10 @@ ALERT_TO_EMAIL='service-alert-recipient@gmail.com'
 SMTP_URL='smtps://account-name@gmail.com:password@smtp.gmail.com'
 ```
 
+
 DO NOT hard code these into your source code. They should be set as environment
 variables on your server, and your application code should access them via
 `process.env.myVar`.
+
+
+https://gomix.com/#!/project/fuschia-girdle
