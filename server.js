@@ -35,17 +35,18 @@ app.get('*', russianRoulette);
 app.use((err, req, res, next) => {
 
   if(err instanceof FooError || err instanceof BarError){
-    console.log("yesssss!!!!!");
+    var errOut = "Oh no! " + err.message + "\n There is a " + err.stack;
+    // console.log(errOut);
     sendEmail({
-      from: '"SERVICE ALERTS" <' + process.env.ALERT_FROM_EMAIL + '>',
+      from: '"' + process.env.ALERT_FROM_NAME + 
+            '" <' + process.env.ALERT_FROM_EMAIL + '>',
       to: process.env.ALERT_TO_EMAIL,
       subject: 'ALERT: a ' + err + ' occurred',
-      text: "Plain text content",
-      html: "<p>HTML version</p>"
+      text: errOut,
+      html: "<p>" + errOut + "</p>"
     });
   }
   
-  logger.error(err);
   next();
 });
 
