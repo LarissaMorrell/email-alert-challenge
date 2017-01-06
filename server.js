@@ -11,6 +11,8 @@ const {logger} = require('./utilities/logger');
 // these are custom errors we've created
 const {FooError, BarError, BizzError} = require('./errors');
 
+const {sendEmail} = require('./emailer'); 
+
 const app = express();
 
 // this route handler randomly throws one of `FooError`,
@@ -31,7 +33,20 @@ app.get('*', russianRoulette);
 // `app.use()`. It needs to come BEFORE the `app.use` call
 // below, which sends a 500 and error message to the client
 app.use((err, req, res, next) => {
+
+  if(err instanceof FooError || err instanceof BarError){
+    console.log("yesssss!!!!!");
+    sendEmail({
+      from: '"SERVICE ALERTS" <' + process.env.ALERT_FROM_EMAIL + '>',
+      to: process.env.ALERT_TO_EMAIL,
+      subject: 'ALERT: a ' + err + ' occurred',
+      text: "Plain text content",
+      html: "<p>HTML version</p>"
+    });
+  }
+  
   logger.error(err);
+  next();
 });
 
 app.use((err, req, res, next) => {

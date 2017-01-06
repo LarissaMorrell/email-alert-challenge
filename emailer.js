@@ -10,13 +10,14 @@ const {SMTP_URL} = process.env;
 
 // `emailData` is an object that looks like this:
 // {
-//  from: "foo@bar.com",
+//  from: "'SERVICE ALERTS' <foo@bar.com>",
 //  to: "bizz@bang.com, marco@polo.com",
 //  subject: "Hello world",
 //  text: "Plain text content",
 //  html: "<p>HTML version</p>"
 // }
 const sendEmail = (emailData, smtpUrl=SMTP_URL) => {
+  console.log("emaildData is... " + emailData);
   const transporter = nodemailer.createTransport(SMTP_URL);
   logger.info(`Attempting to send email from ${emailData.from}`);
   return transporter
